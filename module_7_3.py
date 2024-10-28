@@ -2,19 +2,20 @@ import io
 from pprint import pprint
 
 class WordsFinder:
-    def __init__(self, file_names):
+    def __init__(self, *file_names):
         self.file_names = file_names
 
     def get_all_words(self):
         all_words = {}
         punc = [',', '.', '=', '!', '?', ';', ':', ' - ']
-        with open(self.file_names, encoding='utf-8') as file:
-            line = file.read().lower()
-            for i in line:
-                if i in punc:
-                    line = line.replace(i, '')
-            words = line.split()
-            all_words[self.file_names] = words
+
+        for file_name in self.file_names:
+            with open(file_name, encoding='utf-8') as file:
+                line = file.read().lower()
+                for char in punc:
+                    line = line.replace(char, '')
+                words = line.split()
+                all_words[file_name] = words
         return all_words
 
     def find(self, word):
